@@ -907,55 +907,135 @@
 <InventoryManagementScreen>:
     BoxLayout:
         orientation: 'vertical'
-        padding: 10
+        padding: 20
         spacing: 10
 
+        Image:
+            source: '../pup_study_style/static/assets/pup_logo.png'
+            size_hint_y: None
+            height: '80dp'
+            allow_stretch: True
+            keep_ratio: True
+            pos_hint: {'center_x': 0.5}
+
         Label:
-            text: "Inventory Management"
+            text: 'INVENTORY MANAGEMENT'
             font_size: '24sp'
+            bold: True
+            color: (0.48, 0, 0, 1)
             size_hint_y: None
             height: '40dp'
-            color: (0.48, 0, 0, 1)
-            bold: True
+            halign: 'center'
+            valign: 'middle'
+            text_size: self.size
+
+        Widget:
+            size_hint_y: None
+            height: '10dp'
 
         GridLayout:
             cols: 2
             size_hint_y: None
-            height: '200dp'
+            height: '140dp'
+            row_default_height: '35dp'
             spacing: 5
             Label:
-                text: "Item ID"
+                text: 'ITEM ID:'
+                size_hint_x: 0.4
+                halign: 'right'
+                valign: 'middle'
+                text_size: self.size
             TextInput:
                 id: item_id_input
+                multiline: False
             Label:
-                text: "Name"
+                text: 'ITEM NAME:'
+                size_hint_x: 0.4
+                halign: 'right'
+                valign: 'middle'
+                text_size: self.size
             TextInput:
                 id: item_name_input
+                multiline: False
             Label:
-                text: "Quantity"
+                text: 'QUANTITY:'
+                size_hint_x: 0.4
+                halign: 'right'
+                valign: 'middle'
+                text_size: self.size
             TextInput:
                 id: quantity_input
+                multiline: False
             Label:
-                text: "Price"
+                text: 'PRICE:'
+                size_hint_x: 0.4
+                halign: 'right'
+                valign: 'middle'
+                text_size: self.size
             TextInput:
                 id: price_input
+                multiline: False
 
         BoxLayout:
             size_hint_y: None
             height: '40dp'
-            spacing: 10
+            spacing: 15
+            padding: [0, 0, 0, 0]
             Button:
-                text: "Add"
+                text: 'Add Item'
+                background_color: (0, 0, 0, 1)
+                color: (1, 1, 1, 1)
                 on_release: root.add_item()
             Button:
-                text: "Update"
+                text: 'View'
+                background_color: (0, 0, 0, 1)
+                color: (1, 1, 1, 1)
+                on_release: root.view_items()
+            Button:
+                text: 'Update'
+                background_color: (0, 0, 0, 1)
+                color: (1, 1, 1, 1)
                 on_release: root.update_item()
             Button:
-                text: "Delete"
+                text: 'Delete'
+                background_color: (0, 0, 0, 1)
+                color: (1, 1, 1, 1)
                 on_release: root.delete_item()
-            Button:
-                text: "View"
-                on_release: root.view_items()
+
+        Widget:
+            size_hint_y: None
+            height: '10dp'
+
+        BoxLayout:
+            size_hint_y: None
+            height: '30dp'
+            spacing: 0
+            canvas.before:
+                Color:
+                    rgba: (0, 0, 0, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Label:
+                text: 'ID'
+                bold: True
+                color: (0, 0, 0, 1)
+                background_color: (1, 1, 1, 1)
+            Label:
+                text: 'NAME'
+                bold: True
+                color: (0, 0, 0, 1)
+                background_color: (1, 1, 1, 1)
+            Label:
+                text: 'QUANTITY'
+                bold: True
+                color: (0, 0, 0, 1)
+                background_color: (1, 1, 1, 1)
+            Label:
+                text: 'PRICE'
+                bold: True
+                color: (0, 0, 0, 1)
+                background_color: (1, 1, 1, 1)
 
         ScrollView:
             GridLayout:
@@ -963,9 +1043,10 @@
                 cols: 4
                 size_hint_y: None
                 height: self.minimum_height
+                row_default_height: '30dp'
+                row_force_default: True
+                spacing: 2
 
-        Button:
-            text: "Back"
+        Widget:
             size_hint_y: None
-            height: '40dp'
-            on_release: app.root.current = 'home'
+            height: '10dp'

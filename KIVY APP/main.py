@@ -48,6 +48,26 @@ class DatabaseManager:
         conn.close()
         return user
 
+    def is_admin(self, username):
+        conn = self.get_connection()
+        user = conn.execute('SELECT is_admin FROM users WHERE username = ?', (username,)).fetchone()
+        conn.close()
+        return user and user['is_admin'] == 1
+
+    def create_admin(self, username, password_hash):
+        conn = self.get_connection()
+        try:
+            conn.execute(
+                "INSERT INTO users (username, password_hash, is_admin) VALUES (?, ?, 1)",
+                (username, password_hash)
+            )
+            conn.commit()
+            return True
+        except sqlite3.IntegrityError:
+            return False
+        finally:
+            conn.close()
+
     def user_exists(self, username, email):
         conn = self.get_connection()
         existing_user = conn.execute('SELECT id FROM users WHERE username = ? OR email = ?', (username, email)).fetchone()
@@ -124,15 +144,46 @@ class LoginScreen(Screen):
     def do_login(self):
         username = self.username.text.strip()
         password = self.password.text.strip()
+        
+        print(f"Attempting login for username: {username}")
+        
+        if not username or not password:
+            popup = Popup(title="Login Failed",
+                        content=Label(text="Please enter both username and password."), 
+                        size_hint=(0.8, 0.3))
+            popup.open()
+            return
+
         user = self.db_manager.fetch_user(username)
-        if user and check_password_hash(user['password_hash'], password):
-            app = App.get_running_app()
-            app.current_user = username
-            self.manager.current = "home"
+        print(f"User found in database: {user is not None}")
+        
+        if user:
+            print(f"Checking password for user: {username}")
+            password_check = check_password_hash(user['password_hash'], password)
+            print(f"Password check result: {password_check}")
+            
+            if password_check:
+                app = App.get_running_app()
+                app.current_user = username
+                
+                is_admin = self.db_manager.is_admin(username)
+                print(f"Is admin: {is_admin}")
+                
+                if is_admin:
+                    app.is_admin = True
+                    self.manager.current = "inventory_management"
+                else:
+                    app.is_admin = False
+                    self.manager.current = "home"
+            else:
+                popup = Popup(title="Login Failed",
+                            content=Label(text="Incorrect password."), 
+                            size_hint=(0.8, 0.3))
+                popup.open()
         else:
             popup = Popup(title="Login Failed",
-                          content=Label(text="Incorrect username or password."), 
-                          size_hint=(0.8, 0.3))
+                        content=Label(text="Username not found. Please check your username or register."), 
+                        size_hint=(0.8, 0.3))
             popup.open()
 
 class RegisterScreen(Screen):
@@ -556,54 +607,9 @@ class CheckoutScreen(Screen):
         summary_text += f"\n\nTotal: ₱{total_price:.2f}"
         self.ids.order_summary.text = summary_text
 
-class CartScreen(Screen):
-    def on_pre_enter(self):
-        self.populate_cart()
-
-    def populate_cart(self):
-        cart_list = self.ids.cart_list
-        cart_list.clear_widgets()
-        app = App.get_running_app()
-        for item in app.cart:
-            product = app.get_product_by_id(item['product_id'])
-            if product:
-                from kivy.uix.boxlayout import BoxLayout
-                from kivy.uix.image import Image
-                from kivy.uix.label import Label
-                from kivy.uix.button import Button
-
-                item_layout = BoxLayout(orientation='horizontal', size_hint_y=None, height='80dp', padding=5, spacing=10)
-                product_image = Image(source=product['image_path'] if 'image_path' in product.keys() and product['image_path'] else '../pup_study_style/static/assets/question_mark.png',
-                                      size_hint_x=None, width='80dp', allow_stretch=True, keep_ratio=True)
-                product_label = Label(text=f"{product['name']} - Quantity: {item['quantity']}",
-                                      valign='middle', halign='left', text_size=(self.width, None))
-                item_layout.add_widget(product_image)
-                item_layout.add_widget(product_label)
-
-                # Add quantity editor buttons
-                def decrease_quantity(instance):
-                    if item['quantity'] > 1:
-                        item['quantity'] -= 1
-                    else:
-                        app.cart.remove(item)
-                    self.populate_cart()
-
-                def increase_quantity(instance):
-                    item['quantity'] += 1
-                    self.populate_cart()
-
-                btn_decrease = Button(text='-', size_hint_x=None, width='30dp')
-                btn_decrease.bind(on_release=decrease_quantity)
-                btn_increase = Button(text='+', size_hint_x=None, width='30dp')
-                btn_increase.bind(on_release=increase_quantity)
-
-                item_layout.add_widget(btn_decrease)
-                item_layout.add_widget(btn_increase)
-
-                cart_list.add_widget(item_layout)
-
 class StudyWithStyleApp(App):
     cart = []
+    is_admin = False  # Add admin flag
 
     def build(self):
         Builder.load_file("main.kv")
