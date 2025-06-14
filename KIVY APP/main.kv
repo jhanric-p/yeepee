@@ -1,0 +1,971 @@
+#:import FadeTransition kivy.uix.screenmanager.FadeTransition
+
+<LoginScreen>:
+    username: username
+    password: password
+    BoxLayout:
+        orientation: 'vertical'
+        size_hint_x: None
+        width: '300dp'
+        height: '400dp'
+        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        padding: 20
+        spacing: 10
+        canvas.before:
+            Color:
+                rgba: (1, 1, 1, 1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Image:
+            source: '../pup_study_style/static/assets/pup_logo.png'
+            size_hint: (None, None)
+            size: '100dp', '100dp'
+            pos_hint: {'center_x': 0.5}
+            allow_stretch: True
+            keep_ratio: True
+
+        Label:
+            text: "Welcome To PUP Study with Style"
+            font_size: '18sp'
+            color: (0.6, 0, 0, 1)
+            bold: True
+            size_hint_y: None
+            height: '30dp'
+            halign: 'center'
+            valign: 'middle'
+            text_size: self.size
+
+        TextInput:
+            id: username
+            hint_text: "Username"
+            multiline: False
+            size_hint_y: None
+            height: '40dp'
+            font_size: '16sp'
+            padding: [10, 10, 10, 10]
+            background_normal: ''
+            background_color: (1, 1, 1, 1)
+            foreground_color: (0, 0, 0, 1)
+            cursor_color: (0.6, 0, 0, 1)
+
+        TextInput:
+            id: password
+            hint_text: "Password"
+            multiline: False
+            password: True
+            size_hint_y: None
+            height: '40dp'
+            font_size: '16sp'
+            padding: [10, 10, 10, 10]
+            background_normal: ''
+            background_color: (1, 1, 1, 1)
+            foreground_color: (0, 0, 0, 1)
+            cursor_color: (0.6, 0, 0, 1)
+
+        BoxLayout:
+            size_hint_y: None
+            height: '50dp'
+            spacing: 10
+
+            Button:
+                text: "Login"
+                background_color: (0.6, 0.8, 0.9, 1)
+                color: (0, 0, 0, 1)
+                on_release: root.do_login()
+
+            Button:
+                text: "Sign Up"
+                background_color: (0.6, 0.8, 0.9, 1)
+                color: (0, 0, 0, 1)
+                on_release: app.root.current = 'register'
+
+<ProfileScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        spacing: 10
+        canvas.before:
+            Color:
+                rgba: (1, 1, 1, 1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Image:
+            source: '../pup_study_style/static/assets/pup_logo.png'
+            size_hint: (1, None)
+            height: '100dp'
+            allow_stretch: True
+            keep_ratio: True
+
+        Image:
+            source: '../pup_study_style/static/assets/profile_icon.png'
+            size_hint: (None, None)
+            size: '100dp', '100dp'
+            pos_hint: {'center_x': 0.5}
+            allow_stretch: True
+            keep_ratio: True
+
+        Label:
+            text: "Hi, " + root.username + "!"
+            font_size: '18sp'
+            color: (0.48, 0, 0, 1)
+            bold: True
+            size_hint_y: None
+            height: '30dp'
+            halign: 'center'
+            valign: 'middle'
+            text_size: self.size
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None
+            height: '120dp'
+            padding: 10
+            spacing: 5
+            canvas.before:
+                Color:
+                    rgba: (0.95, 0.95, 0.95, 1)
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [10]
+
+            Label:
+                text: "Address 1"
+                font_size: '14sp'
+                color: (0.48, 0, 0, 1)
+                bold: True
+                size_hint_y: None
+                height: '20dp'
+
+            Label:
+                id: address1_label
+                text: ''
+                font_size: '12sp'
+                color: (0, 0, 0, 1)
+                size_hint_y: None
+                height: '20dp'
+
+            Label:
+                text: "Name: " + (root.ids.name_label.text if 'name_label' in root.ids else '')
+                font_size: '12sp'
+                color: (0, 0, 0, 1)
+                size_hint_y: None
+                height: '20dp'
+
+            Label:
+                text: "Contact No.: " + (root.ids.contact1_label.text if 'contact1_label' in root.ids else '')
+                font_size: '12sp'
+                color: (0, 0, 0, 1)
+                size_hint_y: None
+                height: '20dp'
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None
+            height: '120dp'
+            padding: 10
+            spacing: 5
+            canvas.before:
+                Color:
+                    rgba: (0.95, 0.95, 0.95, 1)
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [10]
+
+            Label:
+                text: "Address 2"
+                font_size: '14sp'
+                color: (0.48, 0, 0, 1)
+                bold: True
+                size_hint_y: None
+                height: '20dp'
+
+            Label:
+                id: address2_label
+                text: ''
+                font_size: '12sp'
+                color: (0, 0, 0, 1)
+                size_hint_y: None
+                height: '20dp'
+
+            Label:
+                text: "Name: " + (root.ids.name_label.text if 'name_label' in root.ids else '')
+                font_size: '12sp'
+                color: (0, 0, 0, 1)
+                size_hint_y: None
+                height: '20dp'
+
+            Label:
+                text: "Contact No.: " + (root.ids.contact2_label.text if 'contact2_label' in root.ids else '')
+                font_size: '12sp'
+                color: (0, 0, 0, 1)
+                size_hint_y: None
+                height: '20dp'
+
+        BoxLayout:
+            size_hint_y: None
+            height: '40dp'
+            spacing: 10
+
+            Button:
+                text: "Home"
+                background_color: (0.48, 0, 0, 1)
+                color: (1, 1, 1, 1)
+                on_release: app.root.current = 'home'
+
+            Button:
+                text: "Edit Profile"
+                background_color: (0.3, 0.3, 0.3, 1)
+                color: (1, 1, 1, 1)
+                on_release: app.root.current = 'edit_profile'
+
+            Button:
+                text: "Log Out"
+                background_color: (0.48, 0, 0, 1)
+                color: (1, 1, 1, 1)
+                on_release:
+                    app.current_user = None
+                    app.root.current = 'login'
+
+<RegisterScreen>:
+    name_input: name_input
+    email_input: email_input
+    username_input: username_input
+    password_input: password_input
+    confirm_password_input: confirm_password_input
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 10
+        canvas.before:
+            Color:
+                rgba: (1, 1, 1, 1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Label:
+            text: "Mula sayo para sa bayan"
+            font_size: '20sp'
+            color: (0.48, 0, 0, 1)
+            bold: True
+            size_hint_y: None
+            height: '40dp'
+            halign: 'center'
+            valign: 'middle'
+            text_size: self.size
+
+        TextInput:
+            id: name_input
+            hint_text: "Name"
+            multiline: False
+            size_hint_y: None
+            height: '40dp'
+            font_size: '16sp'
+            padding: [10, 10, 10, 10]
+            background_normal: ''
+            background_color: (1, 1, 1, 1)
+            foreground_color: (0, 0, 0, 1)
+            cursor_color: (0.48, 0, 0, 1)
+
+        TextInput:
+            id: email_input
+            hint_text: "Email (example@iskolarngbayan.pup.edu.ph)"
+            multiline: False
+            size_hint_y: None
+            height: '40dp'
+            font_size: '16sp'
+            padding: [10, 10, 10, 10]
+            background_normal: ''
+            background_color: (1, 1, 1, 1)
+            foreground_color: (0, 0, 0, 1)
+            cursor_color: (0.48, 0, 0, 1)
+
+        TextInput:
+            id: username_input
+            hint_text: "Username (optional, leave blank to use email)"
+            multiline: False
+            size_hint_y: None
+            height: '40dp'
+            font_size: '16sp'
+            padding: [10, 10, 10, 10]
+            background_normal: ''
+            background_color: (1, 1, 1, 1)
+            foreground_color: (0, 0, 0, 1)
+            cursor_color: (0.48, 0, 0, 1)
+
+        TextInput:
+            id: password_input
+            hint_text: "Password"
+            multiline: False
+            password: True
+            size_hint_y: None
+            height: '40dp'
+            font_size: '16sp'
+            padding: [10, 10, 10, 10]
+            background_normal: ''
+            background_color: (1, 1, 1, 1)
+            foreground_color: (0, 0, 0, 1)
+            cursor_color: (0.48, 0, 0, 1)
+
+        TextInput:
+            id: confirm_password_input
+            hint_text: "Confirm Password"
+            multiline: False
+            password: True
+            size_hint_y: None
+            height: '40dp'
+            font_size: '16sp'
+            padding: [10, 10, 10, 10]
+            background_normal: ''
+            background_color: (1, 1, 1, 1)
+            foreground_color: (0, 0, 0, 1)
+            cursor_color: (0.48, 0, 0, 1)
+
+        BoxLayout:
+            size_hint_y: None
+            height: '50dp'
+            spacing: 10
+
+            Button:
+                text: "Register"
+                background_color: (0.48, 0, 0, 1)
+                color: (1, 1, 1, 1)
+                on_release: root.do_register()
+
+            Button:
+                text: "Back to Login"
+                background_color: (0.3, 0.3, 0.3, 1)
+                color: (1, 1, 1, 1)
+                on_release: app.root.current = 'login'
+
+<HomeScreen>:
+    canvas.before:
+        Color:
+            rgba: (1, 1, 1, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        BoxLayout:
+            size_hint_y: None
+            height: '60dp'
+            padding: 10
+            spacing: 15
+
+            Image:
+                source: '../pup_study_style/static/assets/pup_logo.png'
+                size_hint_x: None
+                width: '120dp'
+                allow_stretch: False
+                keep_ratio: True
+
+            Widget:
+
+            Button:
+                background_normal: '../pup_study_style/static/assets/cart_icon.png'
+                size_hint: None, None
+                size: '40dp', '40dp'
+                on_release: app.root.current = 'cart'
+
+            Button:
+                background_normal: '../pup_study_style/static/assets/profile_icon.png'
+                size_hint: None, None
+                size: '40dp', '40dp'
+                on_release: app.root.current = 'profile'
+
+        ScrollView:
+            do_scroll_x: False
+
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                padding: 10
+                spacing: 10
+
+                Label:
+                    text: 'Best Seller'
+                    font_size: '18sp'
+                    bold: True
+                    color: (0.48, 0, 0, 1)
+                    size_hint_y: None
+                    height: '30dp'
+
+                Image:
+                    source: '../pup_study_style/static/assets/question_mark.png'
+                    size_hint: (1, None)
+                    height: '150dp'
+                    allow_stretch: False
+                    keep_ratio: True
+
+                Label:
+                    text: 'PUP Jeepney Signage'
+                    font_size: '14sp'
+                    color: (0.48, 0, 0, 1)
+                    size_hint_y: None
+                    height: '20dp'
+
+                GridLayout:
+                    cols: 4
+                    size_hint_y: None
+                    height: '100dp'
+                    spacing: 5
+
+                    Image:
+                        source: '../pup_study_style/static/assets/question_mark.png'
+                        size_hint: (None, None)
+                        size: '50dp', '50dp'
+
+                    Image:
+                        source: '../pup_study_style/static/assets/question_mark.png'
+                        size_hint: (None, None)
+                        size: '50dp', '50dp'
+
+                    Image:
+                        source: '../pup_study_style/static/assets/question_mark.png'
+                        size_hint: (None, None)
+                        size: '50dp', '50dp'
+
+                    Image:
+                        source: '../pup_study_style/static/assets/question_mark.png'
+                        size_hint: (None, None)
+                        size: '50dp', '50dp'
+
+                Label:
+                    text: 'PUP Stickers'
+                    font_size: '14sp'
+                    color: (0.48, 0, 0, 1)
+                    size_hint_y: None
+                    height: '20dp'
+
+                GridLayout:
+                    cols: 4
+                    size_hint_y: None
+                    height: '100dp'
+                    spacing: 5
+
+                    Image:
+                        source: '../pup_study_style/static/assets/question_mark.png'
+                        size_hint: (None, None)
+                        size: '50dp', '50dp'
+
+                    Image:
+                        source: '../pup_study_style/static/assets/question_mark.png'
+                        size_hint: (None, None)
+                        size: '50dp', '50dp'
+
+                    Image:
+                        source: '../pup_study_style/static/assets/question_mark.png'
+                        size_hint: (None, None)
+                        size: '50dp', '50dp'
+
+                    Image:
+                        source: '../pup_study_style/static/assets/question_mark.png'
+                        size_hint: (None, None)
+                        size: '50dp', '50dp'
+
+                Label:
+                    text: 'All Products'
+                    font_size: '18sp'
+                    bold: True
+                    color: (0.48, 0, 0, 1)
+                    size_hint_y: None
+                    height: '30dp'
+
+                GridLayout:
+                    id: product_list
+                    cols: 1
+                    size_hint_y: None
+                    height: self.minimum_height
+                    spacing: 10
+
+                BoxLayout:
+                    size_hint_y: None
+                    height: '40dp'
+                    spacing: 10
+
+                    Button:
+                        text: "Order History"
+                        size_hint_x: None
+                        width: '120dp'
+                        background_color: (0.48, 0, 0, 1)
+                        color: (1, 1, 1, 1)
+                        on_release: app.root.current = 'order_history'
+
+                    Button:
+                        text: "Contact Us"
+                        size_hint_x: None
+                        width: '120dp'
+                        background_color: (0.48, 0, 0, 1)
+                        color: (1, 1, 1, 1)
+                        on_release: app.root.current = 'contact_us'
+
+                    Button:
+                        text: "Inventory"
+                        size_hint_x: None
+                        width: '120dp'
+                        background_color: (0.48, 0, 0, 1)
+                        color: (1, 1, 1, 1)
+                        on_release: app.root.current = 'inventory_management'
+
+<CartScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        spacing: 10
+        canvas.before:
+            Color:
+                rgba: (1, 1, 1, 1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Label:
+            text: "Shopping Cart"
+            font_size: '24sp'
+            size_hint_y: None
+            height: '40dp'
+            color: (0.48, 0, 0, 1)
+            bold: True
+
+        ScrollView:
+            do_scroll_x: False
+
+            GridLayout:
+                id: cart_list
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: 10
+
+        BoxLayout:
+            size_hint_y: None
+            height: '50dp'
+            spacing: 10
+
+            Button:
+                text: "Checkout"
+                size_hint_x: None
+                width: '120dp'
+                background_color: (0.48, 0, 0, 1)
+                color: (1, 1, 1, 1)
+                on_release:
+                    app.root.current = 'checkout'
+
+            Button:
+                text: "Continue Shopping"
+                size_hint_x: None
+                width: '180dp'
+                background_color: (0.48, 0, 0, 1)
+                color: (1, 1, 1, 1)
+                on_release:
+                    app.root.current = 'home'
+
+
+<CheckoutScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        spacing: 10
+        canvas.before:
+            Color:
+                rgba: (1, 1, 1, 1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Label:
+            text: "STUDY WITH PASSION"
+            font_size: '24sp'
+            size_hint_y: None
+            height: '40dp'
+            color: (0.48, 0, 0, 1)
+            bold: True
+
+        ScrollView:
+            do_scroll_x: False
+
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                padding: 10
+                spacing: 10
+
+                Label:
+                    text: "Order Summary"
+                    font_size: '18sp'
+                    bold: True
+                    color: (0.48, 0, 0, 1)
+                    size_hint_y: None
+                    height: '30dp'
+
+                Label:
+                    id: order_summary
+                    text: ""
+                    font_size: '14sp'
+                    size_hint_y: None
+                    height: '20dp'
+
+                Label:
+                    text: "Payment Method"
+                    font_size: '18sp'
+                    bold: True
+                    color: (0.48, 0, 0, 1)
+                    size_hint_y: None
+                    height: '30dp'
+
+                Label:
+                    text: "Cash on Delivery"
+                    font_size: '14sp'
+                    size_hint_y: None
+                    height: '20dp'
+
+        BoxLayout:
+            size_hint_y: None
+            height: '50dp'
+            spacing: 10
+
+            Button:
+                text: "CHECK OUT NOW"
+                background_color: (0.48, 0, 0, 1)
+                color: (1, 1, 1, 1)
+                on_release:
+                    app.root.current = 'home'
+
+            Button:
+                text: "Go Back"
+                background_color: (0.3, 0.3, 0.3, 1)
+                color: (1, 1, 1, 1)
+                on_release:
+                    app.root.current = 'cart'
+
+<ProductItem>:
+    orientation: 'horizontal'
+    size_hint_y: None
+    height: '120dp'
+    padding: 5
+    spacing: 10
+    canvas.before:
+        Color:
+            rgba: (0.95, 0.95, 0.95, 1)
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [10]
+
+    Image:
+        source: root.image_source if root.image_source else '../pup_study_style/static/assets/question_mark.png'
+        size_hint_x: None
+        width: '100dp'
+        allow_stretch: True
+        keep_ratio: True
+
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: 5
+
+        Label:
+            text: root.product_name
+            font_size: '14sp'
+            bold: True
+            color: (0.48, 0, 0, 1)
+            size_hint_y: None
+            height: self.texture_size[1]
+
+        Label:
+            text: root.product_price
+            font_size: '12sp'
+            color: (0.48, 0, 0, 1)
+            size_hint_y: None
+            height: self.texture_size[1]
+
+        BoxLayout:
+            size_hint_y: None
+            height: '30dp'
+            spacing: 10
+
+            Button:
+                text: "Add to Cart"
+                font_size: '12sp'
+                background_color: (0.8, 0, 0, 1)
+                color: (1, 1, 1, 1)
+                on_release: root.on_add_to_cart()
+
+            Button:
+                text: "Buy Now"
+                font_size: '12sp'
+                background_color: (0.48, 0, 0, 1)
+                color: (1, 1, 1, 1)
+                on_release: root.on_buy_now()
+
+<EditProfileScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        spacing: 10
+        canvas.before:
+            Color:
+                rgba: (1, 1, 1, 1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Label:
+            text: "Edit Profile"
+            font_size: '20sp'
+            bold: True
+            color: (0.48, 0, 0, 1)
+            size_hint_y: None
+            height: '40dp'
+            halign: 'center'
+            valign: 'middle'
+            text_size: self.size
+
+        TextInput:
+            id: name_input
+            hint_text: "Name"
+            multiline: False
+            size_hint_y: None
+            height: '40dp'
+            font_size: '16sp'
+            padding: [10, 10, 10, 10]
+            background_normal: ''
+            background_color: (1, 1, 1, 1)
+            foreground_color: (0, 0, 0, 1)
+            cursor_color: (0.48, 0, 0, 1)
+
+        TextInput:
+            id: address1_input
+            hint_text: "Address 1"
+            multiline: False
+            size_hint_y: None
+            height: '40dp'
+            font_size: '16sp'
+            padding: [10, 10, 10, 10]
+            background_normal: ''
+            background_color: (1, 1, 1, 1)
+            foreground_color: (0, 0, 0, 1)
+            cursor_color: (0.48, 0, 0, 1)
+
+        TextInput:
+            id: contact1_input
+            hint_text: "Contact 1"
+            multiline: False
+            size_hint_y: None
+            height: '40dp'
+            font_size: '16sp'
+            padding: [10, 10, 10, 10]
+            background_normal: ''
+            background_color: (1, 1, 1, 1)
+            foreground_color: (0, 0, 0, 1)
+            cursor_color: (0.48, 0, 0, 1)
+
+        TextInput:
+            id: address2_input
+            hint_text: "Address 2"
+            multiline: False
+            size_hint_y: None
+            height: '40dp'
+            font_size: '16sp'
+            padding: [10, 10, 10, 10]
+            background_normal: ''
+            background_color: (1, 1, 1, 1)
+            foreground_color: (0, 0, 0, 1)
+            cursor_color: (0.48, 0, 0, 1)
+
+        TextInput:
+            id: contact2_input
+            hint_text: "Contact 2"
+            multiline: False
+            size_hint_y: None
+            height: '40dp'
+            font_size: '16sp'
+            padding: [10, 10, 10, 10]
+            background_normal: ''
+            background_color: (1, 1, 1, 1)
+            foreground_color: (0, 0, 0, 1)
+            cursor_color: (0.48, 0, 0, 1)
+
+        BoxLayout:
+            size_hint_y: None
+            height: '50dp'
+            spacing: 10
+
+            Button:
+                text: "Save"
+                background_color: (0.48, 0, 0, 1)
+                color: (1, 1, 1, 1)
+                on_release: root.save_profile()
+
+            Button:
+                text: "Cancel"
+                background_color: (0.3, 0.3, 0.3, 1)
+                color: (1, 1, 1, 1)
+                on_release: app.root.current = 'profile'
+
+# FIX: Added missing <OrderHistoryScreen> rule
+<OrderHistoryScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        spacing: 10
+
+        Label:
+            text: "My Order History"
+            font_size: '24sp'
+            size_hint_y: None
+            height: '40dp'
+            color: (0.48, 0, 0, 1)
+            bold: True
+
+        GridLayout:
+            cols: 4
+            size_hint_y: None
+            height: '30dp'
+            Label:
+                text: "Ref No"
+                bold: True
+            Label:
+                text: "Status"
+                bold: True
+            Label:
+                text: "Quantity"
+                bold: True
+            Label:
+                text: "Payment"
+                bold: True
+
+        ScrollView:
+            GridLayout:
+                id: order_history_list
+                cols: 4
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: 5
+
+        Button:
+            text: "Back to Home"
+            size_hint_y: None
+            height: '40dp'
+            background_color: (0.48, 0, 0, 1)
+            color: (1, 1, 1, 1)
+            on_release: app.root.current = 'home'
+
+# FIX: Added missing <ContactUsScreen> rule
+<ContactUsScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 10
+
+        Label:
+            text: "Contact Us"
+            font_size: '24sp'
+            size_hint_y: None
+            height: '40dp'
+            color: (0.48, 0, 0, 1)
+            bold: True
+
+        TextInput:
+            id: name_input
+            hint_text: "Your Name"
+            size_hint_y: None
+            height: '40dp'
+
+        TextInput:
+            id: email_input
+            hint_text: "Your Email"
+            size_hint_y: None
+            height: '40dp'
+
+        TextInput:
+            id: message_input
+            hint_text: "Your Message"
+
+        BoxLayout:
+            size_hint_y: None
+            height: '40dp'
+            spacing: 10
+            Button:
+                text: "Submit"
+                on_release: root.submit_contact()
+            Button:
+                text: "Back"
+                on_release: app.root.current = 'home'
+
+# FIX: Added missing <InventoryManagementScreen> rule
+<InventoryManagementScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        spacing: 10
+
+        Label:
+            text: "Inventory Management"
+            font_size: '24sp'
+            size_hint_y: None
+            height: '40dp'
+            color: (0.48, 0, 0, 1)
+            bold: True
+
+        GridLayout:
+            cols: 2
+            size_hint_y: None
+            height: '200dp'
+            spacing: 5
+            Label:
+                text: "Item ID"
+            TextInput:
+                id: item_id_input
+            Label:
+                text: "Name"
+            TextInput:
+                id: item_name_input
+            Label:
+                text: "Quantity"
+            TextInput:
+                id: quantity_input
+            Label:
+                text: "Price"
+            TextInput:
+                id: price_input
+
+        BoxLayout:
+            size_hint_y: None
+            height: '40dp'
+            spacing: 10
+            Button:
+                text: "Add"
+                on_release: root.add_item()
+            Button:
+                text: "Update"
+                on_release: root.update_item()
+            Button:
+                text: "Delete"
+                on_release: root.delete_item()
+            Button:
+                text: "View"
+                on_release: root.view_items()
+
+        ScrollView:
+            GridLayout:
+                id: inventory_list
+                cols: 4
+                size_hint_y: None
+                height: self.minimum_height
+
+        Button:
+            text: "Back"
+            size_hint_y: None
+            height: '40dp'
+            on_release: app.root.current = 'home'
